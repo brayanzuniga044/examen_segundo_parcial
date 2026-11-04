@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Editar' if cita else 'Nueva' }} cita{% endblock %}
+{% block content %}
+<div class="form-card card shadow-sm border-0 mx-auto">
+  <div class="card-body p-4">
+    <h1 class="h3 mb-4">{{ 'Editar cita' if cita else 'Registrar cita' }}</h1>
+    {% if not medicos or not pacientes %}
+      <div class="alert alert-warning">Para registrar una cita, primero agrega al menos un médico y un paciente.</div>
+      <a class="btn btn-outline-primary" href="{{ url_for('medicos.index') }}">Ver médicos</a>
+      <a class="btn btn-outline-primary" href="{{ url_for('pacientes.index') }}">Ver pacientes</a>
+    {% else %}
+    <form method="post">
+      <div class="row g-3">
+        <div class="col-md-6"><label class="form-label" for="fecha">Fecha</label>
+          <input class="form-control" id="fecha" name="fecha" type="date" required value="{{ request.form.get('fecha', cita.fecha.isoformat() if cita else '') }}"></div>
+        <div class="col-md-6"><label class="form-label" for="hora">Hora</label>
+          <input class="form-control" id="hora" name="hora" type="time" required value="{{ request.form.get('hora', cita.hora.strftime('%H:%M') if cita else '') }}"></div>
+        <div class="col-12"><label class="form-label" for="medico_id">Médico</label>
+          <select class="form-select" id="medico_id" name="medico_id" required>
+            <option value="">Selecciona un médico</option>
+            {% for medico in medicos %}<option value="{{ medico.id }}" {% if request.form.get('medico_id', cita.medico_id if cita else '')|string == medico.id|string %}selected{% endif %}>{{ medico.nombre }} · {{ medico.especialidad }}</option>{% endfor %}
+          </select></div>
+        <div class="col-12"><label class="form-label" for="paciente_id">Paciente</label>
+          <select class="form-select" id="paciente_id" name="paciente_id" required>
+            <option value="">Selecciona un paciente</option>
+            {% for paciente in pacientes %}<option value="{{ paciente.id }}" {% if request.form.get('paciente_id', cita.paciente_id if cita else '')|string == paciente.id|string %}selected{% endif %}>{{ paciente.nombre }} · {{ paciente.telefono }}</option>{% endfor %}
+          </select></div>
+      </div>
+      <div class="mt-4"><button class="btn btn-primary" type="submit">Guardar cita</button>
+        <a class="btn btn-outline-secondary" href="{{ url_for('citas.index') }}">Cancelar</a></div>
+    </form>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

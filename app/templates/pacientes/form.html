@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Editar' if paciente else 'Nuevo' }} paciente{% endblock %}
+{% block content %}
+<div class="form-card card shadow-sm border-0 mx-auto">
+  <div class="card-body p-4">
+    <h1 class="h3 mb-4">{{ 'Editar paciente' if paciente else 'Registrar paciente' }}</h1>
+    <form method="post">
+      <div class="mb-3"><label class="form-label" for="nombre">Nombre completo</label>
+        <input class="form-control" id="nombre" name="nombre" maxlength="120" required value="{{ request.form.get('nombre', paciente.nombre if paciente else '') }}"></div>
+      <div class="mb-4"><label class="form-label" for="telefono">Teléfono</label>
+        <input class="form-control" id="telefono" name="telefono" type="tel" maxlength="30" required value="{{ request.form.get('telefono', paciente.telefono if paciente else '') }}"></div>
+      <button class="btn btn-primary" type="submit">Guardar</button>
+      <a class="btn btn-outline-secondary" href="{{ url_for('pacientes.index') }}">Cancelar</a>
+    </form>
+  </div>
+</div>
+{% endblock %}
