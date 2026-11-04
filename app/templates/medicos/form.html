@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{{ 'Editar' if medico else 'Nuevo' }} médico{% endblock %}
+{% block section_name %}{{ 'Editar médico' if medico else 'Nuevo médico' }}{% endblock %}
 {% block content %}
 <div class="form-card card shadow-sm border-0 mx-auto">
   <div class="card-body p-4">

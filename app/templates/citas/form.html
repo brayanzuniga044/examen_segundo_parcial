@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{{ 'Editar' if cita else 'Nueva' }} cita{% endblock %}
+{% block section_name %}{{ 'Editar cita' if cita else 'Nueva cita' }}{% endblock %}
 {% block content %}
 <div class="form-card card shadow-sm border-0 mx-auto">
   <div class="card-body p-4">
